@@ -1,0 +1,5 @@
+# unrelated files
+*.txt
+
+# libraries directory
+includes/vendor/*
