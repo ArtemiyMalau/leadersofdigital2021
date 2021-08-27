@@ -11,7 +11,7 @@ switch ($api->module) {
 		$data = $api->params([]);
 
 		$api->answer["status"] = true;
-		$api->answer["response"] = ["payload": "success"];
+		$api->answer["response"] = ["payload" => "success"];
 		break;
 
 	case "get_error":
