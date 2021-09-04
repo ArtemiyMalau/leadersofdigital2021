@@ -38,6 +38,7 @@ switch ($api->module) {
     case "sign_up_vendor":
         $data = $api->params(["company_name", "description", "email", "password"]);
         $res = signUpVendor($data["company_name"], $data["description"], $data["email"], $data["password"]);
+        $api->answer = $res;
         break;
 
     case "sign_in":
@@ -95,4 +96,17 @@ switch ($api->module) {
 			],
 		];
 		break;
+
+
+    case "get_user_data":
+        $data = $api->params([]);
+        $res = getUserData();
+        $api->answer = $res;
+        break;
+
+    case "change_user_data":
+        $data = $api->params(["user_type", "email", "phone", "old_password", "new_password", "name", "optional_name"]);
+        $res = changeUserData($data["user_type"], $data["email"],$data["phone"], $data["old_password"], $data["new_password"],$data["name"], $data["optional_name"]);
+        $api->answer = $res;
+        break;
 }
