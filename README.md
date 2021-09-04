@@ -26,7 +26,6 @@
 	<li>SCRUM.</li>
 	<li>Vue.</li>
   <li>Apache, PhpMyAdmin.</li>
-
 	<li>Git.</li>
   
  </ul>
