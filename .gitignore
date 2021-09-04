@@ -3,3 +3,6 @@
 
 # libraries directory
 includes/vendor/*
+
+.idea
+__pycache__
