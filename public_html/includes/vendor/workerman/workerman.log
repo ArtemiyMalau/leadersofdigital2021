@@ -1,0 +1,56 @@
+2021-09-04 03:08:35 pid:4366 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:10:42 pid:4366 Workerman[webSoket.php] stopping ...
+2021-09-04 03:10:43 pid:4366 Workerman[webSoket.php] has been stopped
+2021-09-04 03:10:46 pid:4679 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:11:02 pid:4680 PDOException: PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '0' for column 'time' at row 1 in /home/lagrange/public_html/includes/vendor/digitalstars/database/src/DB.php:53
+Stack trace:
+#0 /home/lagrange/public_html/includes/vendor/digitalstars/database/src/DB.php(53): PDO->query()
+#1 /home/lagrange/public_html/includes/webSoket.php(160): DigitalStars\DataBase\DB->query()
+#2 /home/lagrange/public_html/includes/vendor/workerman/workerman/Connection/TcpConnection.php(637): {closure}()
+#3 /home/lagrange/public_html/includes/vendor/workerman/workerman/Events/Select.php(293): Workerman\Connection\TcpConnection->baseRead()
+#4 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(2430): Workerman\Events\Select->loop()
+#5 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(1554): Workerman\Worker->run()
+#6 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(1384): Workerman\Worker::forkOneWorkerForLinux()
+#7 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(1358): Workerman\Worker::forkWorkersForLinux()
+#8 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#9 /home/lagrange/public_html/includes/webSoket.php(176): Workerman\Worker::runAll()
+#10 {main} in /home/lagrange/public_html/includes/vendor/digitalstars/database/src/DB.php:60
+Stack trace:
+#0 /home/lagrange/public_html/includes/webSoket.php(160): DigitalStars\DataBase\DB->query()
+#1 /home/lagrange/public_html/includes/vendor/workerman/workerman/Connection/TcpConnection.php(637): {closure}()
+#2 /home/lagrange/public_html/includes/vendor/workerman/workerman/Events/Select.php(293): Workerman\Connection\TcpConnection->baseRead()
+#3 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(2430): Workerman\Events\Select->loop()
+#4 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(1554): Workerman\Worker->run()
+#5 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(1384): Workerman\Worker::forkOneWorkerForLinux()
+#6 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(1358): Workerman\Worker::forkWorkersForLinux()
+#7 /home/lagrange/public_html/includes/vendor/workerman/workerman/Worker.php(542): Workerman\Worker::forkWorkers()
+#8 /home/lagrange/public_html/includes/webSoket.php(176): Workerman\Worker::runAll()
+#9 {main}
+2021-09-04 03:11:02 pid:4680 Worker[4680] process terminated
+2021-09-04 03:11:02 pid:4679 worker[none:4680] exit with status 64000
+2021-09-04 03:19:35 pid:4679 Workerman[webSoket.php] stopping ...
+2021-09-04 03:19:35 pid:4679 Workerman[webSoket.php] has been stopped
+2021-09-04 03:19:51 pid:5533 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:32:58 pid:5533 Workerman[webSoket.php] stopping ...
+2021-09-04 03:32:58 pid:5533 Workerman[webSoket.php] has been stopped
+2021-09-04 03:33:00 pid:7564 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:36:05 pid:7564 Workerman[webSoket.php] stopping ...
+2021-09-04 03:36:05 pid:7564 Workerman[webSoket.php] has been stopped
+2021-09-04 03:36:10 pid:7824 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:36:54 pid:7824 Workerman[webSoket.php] stopping ...
+2021-09-04 03:36:54 pid:7824 Workerman[webSoket.php] has been stopped
+2021-09-04 03:36:55 pid:7886 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:37:50 pid:7886 Workerman[webSoket.php] stopping ...
+2021-09-04 03:37:50 pid:7886 Workerman[webSoket.php] has been stopped
+2021-09-04 03:37:51 pid:7972 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:38:37 pid:7972 Workerman[webSoket.php] stopping ...
+2021-09-04 03:38:37 pid:7972 Workerman[webSoket.php] has been stopped
+2021-09-04 03:38:38 pid:8007 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:40:09 pid:8007 Workerman[webSoket.php] stopping ...
+2021-09-04 03:40:09 pid:8007 Workerman[webSoket.php] has been stopped
+2021-09-04 03:40:09 pid:8267 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:41:02 pid:8267 Workerman[webSoket.php] stopping ...
+2021-09-04 03:41:02 pid:8267 Workerman[webSoket.php] has been stopped
+2021-09-04 03:41:03 pid:8356 Workerman[webSoket.php] start in DEBUG mode
+2021-09-04 03:42:19 pid:8356 Workerman[webSoket.php] stopping ...
+2021-09-04 03:42:19 pid:8356 Workerman[webSoket.php] has been stopped
