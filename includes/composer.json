@@ -2,6 +2,10 @@
     "require": {
         "digitalstars/simple-api": "^1.0",
         "digitalstars/database": "^1.0",
-        "digitalstars/simplevk": "dev-testing"
+        "digitalstars/simplevk": "dev-testing",
+        "workerman/workerman": "^4.0",
+        "ext-pcntl": "*",
+        "ext-posix": "*",
+        "phpmailer/phpmailer": "^6.5"
     }
 }
