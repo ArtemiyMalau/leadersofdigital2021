@@ -178,7 +178,7 @@ function checkAuth()
             $tokenInDb = $db->query("SELECT * FROM `user` WHERE `token` = ?s", [$token])->fetch();
             if ($tokenInDb) {
 
-                return ["status" => true, "token" => $token];
+                return ["status" => true, "user_id" => $tokenInDb['id']];
             } else {
                 deleteTokenCookie();
                 return ["status" => false, "reason" => "INVALID_TOKEN"];
@@ -258,8 +258,8 @@ function sendRegMail($email, $token)
     $mail->Subject = "RosatomVendors"; // Заголовок письма
     $mail->Body = "Для подтверждения аккаунта перейдите по <a href='https://lagrange.creativityprojectcenter.ru/includes/verify_account.php?token={$token}'>ссылке</a>"; // Текст письма
     $mail->addAddress($email);
-    $mail->send();
     try {
+        $mail->send();
         $mailStatus = true;
     } catch (Exception $ex) {
         $mailStatus = false;
@@ -273,7 +273,7 @@ function getUserData()
     $auth = checkAuth();
     $res = [];
     if ($auth["status"] == true) {
-        $userData = $db->query("SELECT * FROM `user` WHERE `token` = ?s", [$auth["token"]])->fetch();
+        $userData = $db->query("SELECT * FROM `user` WHERE `id` = ?i", [$auth["user_id"]])->fetch();
         $response = [
             "email" => $userData["login"],
             "verify_status" => (int)$userData["status"],
@@ -307,7 +307,7 @@ function changeUserData($type, $email, $phone, $oldPass, $newPass, $name, $optio
     $auth = checkAuth();
     $response = [];
     if ($auth["status"] == true) {
-        $userData = $db->query("SELECT * FROM `user` WHERE `token` = ?s", [$auth["token"]])->fetch();
+        $userData = $db->query("SELECT * FROM `user` WHERE `id` = ?i", [$auth["user_id"]])->fetch();
         $oldPass = md5($oldPass . $userData['rnd']);
         if ($oldPass != "" && $newPass != "") {
             if ($oldPass == $userData["password"]) {
@@ -323,42 +323,156 @@ function changeUserData($type, $email, $phone, $oldPass, $newPass, $name, $optio
                 ];
             }
         }
-        if ($email != $userData['login']) {
-            $db->query("UPDATE `user` SET `login` = ?S where `id` = ?i", [$email, $userData["id"]]);
-            $response["email"] = ["change" => true];
+        if ($email != "") {
+            if ($email != $userData['login']) {
+                $db->query("UPDATE `user` SET `login` = ?S where `id` = ?i", [$email, $userData["id"]]);
+                $response["email"] = ["change" => true];
+            }
         }
         if ($type == 1) {
             $data = $db->query("SELECT * FROM `customer_data` WHERE `user_id` = ?i", [$userData["id"]])->fetch();
-            if ($data["first_name"] != $name) {
-                $db->query("UPDATE `customer_data` SET `first_name` = ?S where `id` = ?i", [$name, $userData["id"]]);
-                $response["first_name"] = ["change" => true];
+            if ($email != "") {
+                if ($email != $data['email']) {
+                    $db->query("UPDATE `customer_data` SET `email` = ?s where `user_id` = ?i", [$email, $userData["id"]]);
+                    $response["email"] = ["change" => true];
+                }
             }
-            if ($data["last_name"] != $optionalName) {
-                $db->query("UPDATE `customer_data` SET `last_name` = ?S where `id` = ?i", [$optionalName, $userData["id"]]);
-                $response["last_name"] = ["change" => true];
+            if ($name != "") {
+                if ($data["first_name"] != $name) {
+                    $db->query("UPDATE `customer_data` SET `first_name` = ?s where `user_id` = ?i", [$name, $userData["id"]]);
+                    $response["first_name"] = ["change" => true];
+                }
             }
-            if ($data["phone"] != $phone) {
-                $db->query("UPDATE `customer_data` SET `phone` = ?S where `id` = ?i", [$phone, $userData["id"]]);
-                $response["phone"] = ["change" => true];
+            if ($optionalName != "") {
+                if ($data["last_name"] != $optionalName) {
+                    $db->query("UPDATE `customer_data` SET `last_name` = ?s where `user_id` = ?i", [$optionalName, $userData["id"]]);
+                    $response["last_name"] = ["change" => true];
+                }
+            }
+            if ($phone != "") {
+                if ($data["phone"] != $phone) {
+                    $db->query("UPDATE `customer_data` SET `phone` = ?s where `user_id` = ?i", [$phone, $userData["id"]]);
+                    $response["phone"] = ["change" => true];
+                }
             }
         } else if ($type == 2) {
             $data = $db->query("SELECT * FROM `vendor_data` WHERE `user_id` = ?i", [$userData["id"]])->fetch();
-            if ($data["company_name"] != $name) {
-                $db->query("UPDATE `vendor_data` SET `company_name` = ?S where `id` = ?i", [$name, $userData["id"]]);
-                $response["company_name"] = ["change" => true];
+            if ($name != "") {
+                if ($data["company_name"] != $name) {
+                    $db->query("UPDATE `vendor_data` SET `company_name` = ?s where `user_id` = ?i", [$name, $userData["id"]]);
+                    $response["company_name"] = ["change" => true];
+                }
             }
-            if ($data["description"] != $optionalName) {
-                $db->query("UPDATE `vendor_data` SET `description` = ?S where `id` = ?i", [$optionalName, $userData["id"]]);
-                $response["description"] = ["change" => true];
+            if ($optionalName != "") {
+                if ($data["description"] != $optionalName) {
+                    $db->query("UPDATE `vendor_data` SET `description` = ?s where `user_id` = ?i", [$optionalName, $userData["id"]]);
+                    $response["description"] = ["change" => true];
+                }
             }
-            if ($data["phone"] != $phone) {
-                $db->query("UPDATE `vendor_data` SET `phone` = ?S where `id` = ?i", [$phone, $userData["id"]]);
-                $response["phone"] = ["change" => true];
+            if ($phone != "") {
+                if ($data["phone"] != $phone) {
+                    $db->query("UPDATE `vendor_data` SET `phone` = ?s where `user_id` = ?i", [$phone, $userData["id"]]);
+                    $response["phone"] = ["change" => true];
+                }
             }
         }
-        return ["status" => false, $response];
+        return ["status" => true, $response];
     } else {
         return ["status" => false, "reason" => "No_auth"];
     }
+}
 
+function sendMailRequest($vendor_id)
+{
+    global $mail;
+    global $db;
+    // нахождение производителя в таблице по id
+    $auth = checkAuth();
+    if ($auth["status"] == true) {
+        $user_id = $auth["user_id"];
+        $last_message = $db->query("SELECT * FROM mailing ml JOIN mailing_vendor_instance mv ON ml.id = mv.mailing_id WHERE mv.vendor_id = ?i and ml.user_id = ?i ORDER by ml.created_at DESC",
+            [$vendor_id, $user_id])->fetch();
+        if ($last_message) {
+            if (time() - strtotime($last_message["created_at"]) <= 80000) {
+                return ["status" => false, "reason" => "already sent today"];
+            }
+        }
+        $vendorData = $db->query("SELECT * FROM vendor WHERE id = ?i", [$vendor_id])->fetch();
+        $vendor_email = $vendorData["email"];
+
+        $last_id = $db->insert('mailing', ['user_id' => $user_id, 'text' => "text_soon"]);
+        $uniquelink = generateToken();
+        $linkLifetime = time() + 1300000;
+        $db->query("INSERT INTO `mailing_vendor_instance` (`mailing_id`, `link`, `link_lifetime`, `vendor_id`) VALUES (?i, ?s, ?s, ?i)", [$last_id, $uniquelink, $linkLifetime, $vendor_id]);
+        $email_message = "Сервис RosatomVendors нашел покупателя для вашей продукции, перейдите по <a href='https://lagrange.creativityprojectcenter.ru/includes/vendorChat.php?uniqueurl={$uniquelink} для дальшнейшего общения с покупателем'>ссылке</a>";
+
+        $mail->setFrom("egor.salnik0v@yandex.ru", 'vibe.digital');
+        $mail->isHTML(true);
+        $mail->Subject = "RosatomVendors";
+        $mail->Body = $email_message;
+        $mail->addAddress($vendor_email);
+        try {
+            $mail->send();
+        } catch (Exception $e) {
+
+        }
+        return ["status" => true];
+    } else {
+        return ["status" => false, "reason" => "NO AUTH"];
+    }
+}
+
+function getAllMessageSend()
+{
+    global $db;
+    $auth = checkAuth();
+    if ($auth["status"] == true) {
+        $user_id = $auth["user_id"];
+        $vendorsIdMails = $db->query("SELECT mv.vendor_id FROM mailing ml JOIN mailing_vendor_instance mv ON ml.id = mv.mailing_id WHERE ml.user_id = ?i GROUP BY mv.vendor_id", [$user_id])->fetchAll();
+        $items = [];
+        if ($vendorsIdMails) {
+            foreach ($vendorsIdMails as $vendorId) {
+                $vendorData = $db->query("SELECT vr.id, vr.ogrn, vr.inn, vr.kpp, vr.name, vr.address, vr.email, vr.website, vr.phone, vr.rate_minpromtorg FROM vendor vr WHERE  vr.id =?i", [$vendorId["vendor_id"]])->fetch();
+                $items[] = $vendorData;
+            }
+        }
+        return ["status" => true, "items" => $items];
+    } else {
+        return ["status" => false, "reason" => "NO AUTH"];
+    }
+}
+
+function addToFavorites($vendor_id)
+{
+    global $db;
+    $auth = checkAuth();
+    if ($auth["status"] == true) {
+        $user_id = $auth["user_id"];
+        $isAlreadyFavorites = $db->query("SELECT * FROM favorites_vendors WHERE user_id = ?i AND vendor_id = ?i", [$user_id, $vendor_id])->fetch();
+        if ($isAlreadyFavorites) {
+            return ["status" => true, "reason" => "ALREADY FAVORITES"];
+        }
+        $db->query("INSERT INTO favorites_vendors (user_id, vendor_id) VALUES (?i,?i)", [$user_id, $vendor_id]);
+        return ["status" => true];
+    } else {
+        return ["status" => false, "reason" => "NO AUTH"];
+    }
+}
+
+function getAllFavorites(){
+    global $db;
+    $auth = checkAuth();
+    if ($auth["status"] == true) {
+        $user_id = $auth["user_id"];
+        $allFavorites = $db->query("SELECT * FROM favorites_vendors WHERE user_id = ?i", [$user_id])->fetchAll();
+        $items = [];
+        foreach ($allFavorites as $favorite){
+            $vendorData = $db->query("SELECT vr.id, vr.ogrn, vr.inn, vr.kpp, vr.name, vr.address, vr.email, vr.website, vr.phone, vr.rate_minpromtorg FROM vendor vr WHERE  vr.id =?i",
+                [$favorite["vendor_id"]])->fetch();
+            $items[] = $vendorData;
+        }
+        return ["status" => true, "items" => $items];
+    } else {
+        return ["status" => false, "reason" => "NO AUTH"];
+    }
 }
