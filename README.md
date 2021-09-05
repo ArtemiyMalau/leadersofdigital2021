@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <p align="center">
 <h4>Реализованная функциональность</h4>
 <ul>
@@ -71,12 +70,7 @@ quit
 ~~~
 ### Выполнение миграций
 
-Для заполнения базы данных системной информацией выполните в корневой папке сервиса: 
-~~~
-mysql -u root -p -f mynewdb < папка_сервиса/...
-mypassword
-~~~
-и согласитесь с запросом
+Для заполнения базы данных запустите скрипт lagrange_struct.sql из вашей базы данных
 
 ### Установка зависимостей проекта
 
@@ -111,6 +105,14 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+Установка модулей python осуществляется с помощью пакетного менеджера [pip](https://pypi.org/project/pip/). Если у вас нет пакетного менеджера pip на системе,
+вы можете установить его по инструкции, указанной на [pip.pypa.io] https://pip.pypa.io/en/stable/installation/
+
+После выполните команду в директории проекта по пути ./py
+~~~
+pip install -r requirements.txt
+~~~
 
 РАЗРАБОТЧИКИ
 
