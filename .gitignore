@@ -1,8 +1,12 @@
 # unrelated files
-*.txt
+plan.txt
 
 # libraries directory
 includes/vendor/*
 
 .idea
+
+# python
+chromedriver.exe
 __pycache__
+env
