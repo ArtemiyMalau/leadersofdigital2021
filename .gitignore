@@ -1,12 +1,13 @@
-# unrelated files
-plan.txt
-
-# libraries directory
-includes/vendor/*
-
 .idea
 
-# python
+# unrelated files
+plan.txt
+*.docx
+
+# PHP libraries directory
+includes/vendor/*
+
+# Python-related files, directories
 chromedriver.exe
 __pycache__
 env
@@ -16,7 +17,7 @@ env
 node_modules
 /dist
 
-# local env files
+# Local env files
 .env.local
 .env.*.local
 
@@ -27,7 +28,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Editor directories and files
-.idea
 .vscode
 *.suo
 *.ntvs*
