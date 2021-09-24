@@ -113,11 +113,3 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ~~~
 pip install -r requirements.txt
 ~~~
-
-РАЗРАБОТЧИКИ
-
-<h4>Балыков Артур backend, teamlead </h4>
-<h4>Сальников Егор backend </h4>
-<h4>Скоморохова Анастасия UX/UI designer </h4>
-<h4>Голышев Александр frontend </h4>
-<h4>Сотников Александр frontend, analytics </h4>
